@@ -30,3 +30,7 @@ border-radius: 50%;
 .notification:not(:last-child) {
   margin-bottom: 0;
 }
+
+abbr[title] {
+  text-decoration-line: none;
+}
