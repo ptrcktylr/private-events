@@ -1,5 +1,17 @@
 Rails.application.routes.draw do
   resources :users
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :sessions, only: [:new, :create, :delete]
+
+  # Root Path
   root "users#index"
+
+  # Signing Up
+  get '/signup', to: 'users#new'
+  post '/signup', to: 'users#create'
+
+  # Logging Out
+  delete '/logout', to: 'sessions#destroy'
+
+  # Logging In
+  post '/login', to: 'sessions#create'
 end
