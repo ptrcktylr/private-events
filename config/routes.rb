@@ -6,12 +6,13 @@ Rails.application.routes.draw do
   root "users#index"
 
   # Signing Up
-  get '/signup', to: 'users#new'
-  post '/signup', to: 'users#create'
+  get '/signup', to: 'users#new', as: 'signup'
+  # post '/signup', to: 'users#create'
 
   # Logging Out
-  delete '/logout', to: 'sessions#destroy'
+  get '/logout', to: 'sessions#destroy', as: 'logout'
 
   # Logging In
-  post '/login', to: 'sessions#create'
+  get '/login', to: 'sessions#new', as: 'login'
+  # post '/login', to: 'sessions#create'
 end
