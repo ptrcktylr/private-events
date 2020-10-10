@@ -10,6 +10,29 @@
   <%= @user.username %>
 </p>
 
+<%# make these into cards possibly %>
+<p>
+  <strong>Hosted Events:</strong>
+  <% @user.events.each do |event| %>
+  <table>
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Location</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+  </tr>
+  <tr>
+    <td><%= event.title %></td>
+    <td><%= event.description %></td>
+    <td><%= event.location %></td>
+    <td><%= event.start_time %></td>
+    <td><%= event.end_time %></td>
+  </tr>
+  <table>
+  <% end %>
+</p>
+
 <% if @user.id == session[:user_id] %>
   <%= link_to 'Edit', edit_user_path(@user) %> |
 <% end %>

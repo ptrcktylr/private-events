@@ -14,7 +14,11 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @event = Event.new
+    if current_user
+      @event = current_user.events.build
+    else
+      flash[:danger] = "Please log in to create an event!"
+    end
   end
 
   # GET /events/1/edit
@@ -24,7 +28,8 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(event_params)
+    @event = current_user.events.build(event_params)
+    # add current_user to attendees
 
     respond_to do |format|
       if @event.save
