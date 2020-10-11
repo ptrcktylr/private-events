@@ -3,8 +3,15 @@ Rails.application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :delete]
 
+  resources :events, only: [:index, :show] do
+    member do
+      post 'events/:id/add_attendee', to: "events#add_attendee"
+      delete 'events/:id/remove_attendee', to: "events#remove_attendee"
+    end    
+  end
+
   # Root Path
-  root "users#index"
+  root "events#index"
 
   # Signing Up
   get '/signup', to: 'users#new', as: 'signup'

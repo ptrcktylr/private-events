@@ -1,6 +1,10 @@
-<h1>Editing Event</h1>
+<% if session[:user_id] == @event.creator_id %>
+  <h1>Editing Event</h1>
 
-<%= render 'form', event: @event %>
+  <%= render 'form', event: @event %>
 
-<%= link_to 'Show', @event %> |
-<%= link_to 'Back', events_path %>
+  <%= link_to 'Show', @event %> |
+  <%= link_to 'Back', events_path %>
+<% else %>
+  <% flash.now[:alert] = "This isn't your event!" %>
+<% end %>

@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :add_attendee, :remove_attendee]
 
   # GET /events
   # GET /events.json
@@ -29,7 +29,7 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = current_user.events.build(event_params)
-    # add current_user to attendees
+    @event.attendees << current_user
 
     respond_to do |format|
       if @event.save
@@ -63,6 +63,32 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def add_attendee
+    if @event.attendees.include?(current_user)
+      flash.alert = "You're already attending this event!"
+      redirect_to event_path(@event)
+    else
+      @event.attendees << current_user
+      flash.notice = "Attended Event!"
+      redirect_to event_path(@event)
+    end
+  end
+
+  def remove_attendee
+    if @event.attendees.include?(current_user)
+      if @event.creator == current_user
+        redirect_to event_path(@event), flash: { alert: "This is your event! You have to attend!"}
+      else
+        @event.attendees.delete(current_user)
+        flash.notice = "Unattended Event!"
+        redirect_to event_path(@event)
+      end
+    else
+      flash.alert = "You're not attending this event!"
+      redirect_to event_path(@event)
     end
   end
 

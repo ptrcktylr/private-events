@@ -9,31 +9,71 @@
   <strong>Username:</strong>
   <%= @user.username %>
 </p>
+<hr class="solid">
 
-<%# make these into cards possibly %>
 <p>
-  <strong>Hosted Events:</strong>
-  <% @user.events.each do |event| %>
-  <table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Location</th>
-    <th>Start Time</th>
-    <th>End Time</th>
-  </tr>
-  <tr>
-    <td><%= event.title %></td>
-    <td><%= event.description %></td>
-    <td><%= event.location %></td>
-    <td><%= event.start_time %></td>
-    <td><%= event.end_time %></td>
-  </tr>
-  <table>
-  <% end %>
+  <div class="title is-4 has-text-centered m-2">Hosted Events:</div>
+  <div class="columns is-multiline is-mobile is-centered">
+    <% @user.events.each do |event| %>
+      <div class="column is-one-quarter">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              <%= event.title %>
+            </p>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              @<%= event.location %><br />
+              <%= event.description %>
+              <br>
+              <%= event.start_time %>
+              <%= event.end_time %>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <%= link_to 'Show', event, class: "card-footer-item" %>
+          </footer>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </p>
+<hr class="solid">
+
+<p>
+  <div class="title is-4 has-text-centered m-2">Events Attending:</div>
+  <div class="columns is-multiline is-mobile is-centered">
+    <% @user.attended_events.each do |event| %>
+      <% unless @user.events.include?(event) %>
+        <div class="column is-one-quarter">
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                <%= event.title %>
+              </p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                @<%= event.location %><br />
+                <%= event.description %>
+                <br>
+                <%= event.start_time %>
+                <%= event.end_time %>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <%= link_to 'Show', event, class: "card-footer-item" %>
+            </footer>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</p>
+<hr class="solid">
 
 <% if @user.id == session[:user_id] %>
-  <%= link_to 'Edit', edit_user_path(@user) %> |
+  <%= link_to 'Edit User', edit_user_path(@user) %> |
 <% end %>
 <%= link_to 'Back', users_path %>
